@@ -117,7 +117,8 @@ const GameState = {
 };
 
 const AudioState = {
-    enabled: true,
+    enabled: false,
+    locked: false,
     context: null,
     masterGain: null,
     musicGain: null,
@@ -143,7 +144,10 @@ function playTone({ freq, duration = 0.14, type = 'sine', gain = 0.3, startTime 
     if (!AudioState.enabled) return;
     ensureAudioContext();
     const ctx = AudioState.context;
-    if (ctx.state === 'suspended') ctx.resume();
+    if (ctx.state === 'suspended') {
+        ctx.resume().then(() => playTone({ freq, duration, type, gain, startTime, output }));
+        return;
+    }
 
     const osc = ctx.createOscillator();
     const gainNode = ctx.createGain();
@@ -256,14 +260,18 @@ function setAudioButtonState() {
     button.textContent = AudioState.enabled ? 'Audio: On' : 'Audio: Off';
     button.setAttribute('aria-pressed', AudioState.enabled.toString());
     button.classList.toggle('is-on', AudioState.enabled);
+    button.disabled = !!AudioState.locked;
 }
 
 function toggleAudio() {
+    if (AudioState.locked) return;
     AudioState.enabled = !AudioState.enabled;
     if (AudioState.enabled) {
         ensureAudioContext();
-        if (AudioState.context.state === 'suspended') AudioState.context.resume();
-        startMusic();
+        const resumePromise = AudioState.context.state === 'suspended'
+            ? AudioState.context.resume()
+            : Promise.resolve();
+        resumePromise.then(() => startMusic());
     } else {
         stopMusic();
     }
@@ -273,8 +281,10 @@ function toggleAudio() {
 function unlockAudio() {
     if (!AudioState.enabled) return;
     ensureAudioContext();
-    if (AudioState.context.state === 'suspended') AudioState.context.resume();
-    startMusic();
+    const resumePromise = AudioState.context.state === 'suspended'
+        ? AudioState.context.resume()
+        : Promise.resolve();
+    resumePromise.then(() => startMusic());
 }
 
 function initGame() {
@@ -532,10 +542,48 @@ function computerTurn() {
     updateUI();
 }
 
+function setupParallaxBackground() {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (prefersReduced.matches) return;
+
+    const root = document.documentElement;
+    const maxOffset = 22;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    const handleMove = (event) => {
+        const x = event.clientX / window.innerWidth - 0.5;
+        const y = event.clientY / window.innerHeight - 0.5;
+        targetX = x * 2 * maxOffset;
+        targetY = y * 2 * maxOffset;
+    };
+
+    const handleLeave = () => {
+        targetX = 0;
+        targetY = 0;
+    };
+
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('mouseleave', handleLeave);
+
+    const tick = () => {
+        currentX += (targetX - currentX) * 0.08;
+        currentY += (targetY - currentY) * 0.08;
+        root.style.setProperty('--parallax-x', currentX.toFixed(2));
+        root.style.setProperty('--parallax-y', currentY.toFixed(2));
+        requestAnimationFrame(tick);
+    };
+
+    tick();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Battleship game loaded.');
     initGame();
     handleSetupPhaseUI();
     updateUI();
+    setupParallaxBackground();
     document.addEventListener('pointerdown', unlockAudio, { once: true });
 });

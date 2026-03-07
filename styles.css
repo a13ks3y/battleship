@@ -16,6 +16,8 @@
     --sunk-color: #8e44ad;
     --gap-size: 2px;
     --cell-size: clamp(25px, 4vw, 40px);
+    --parallax-x: 0;
+    --parallax-y: 0;
 }
 
 body {
@@ -27,6 +29,70 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.parallax-bg {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.parallax-layer {
+    position: absolute;
+    inset: -15%;
+    background-repeat: repeat;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+}
+
+.layer-stars {
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.9) 50%, transparent 55%),
+        radial-gradient(1px 1px at 70% 20%, rgba(255, 255, 255, 0.6) 50%, transparent 55%),
+        radial-gradient(1.5px 1.5px at 40% 80%, rgba(255, 255, 255, 0.7) 50%, transparent 55%),
+        radial-gradient(2px 2px at 85% 75%, rgba(255, 255, 255, 0.8) 50%, transparent 55%),
+        radial-gradient(1px 1px at 10% 60%, rgba(255, 255, 255, 0.6) 50%, transparent 55%);
+    background-size: 220px 220px;
+    opacity: 0.55;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
+    animation: driftSlow 120s linear infinite;
+    transform: translate3d(calc(var(--parallax-x) * 0.25px), calc(var(--parallax-y) * 0.25px), 0);
+}
+
+.layer-nebula {
+    background-image:
+        radial-gradient(circle at 30% 40%, rgba(52, 152, 219, 0.35), transparent 55%),
+        radial-gradient(circle at 70% 30%, rgba(231, 76, 60, 0.25), transparent 60%),
+        radial-gradient(circle at 60% 80%, rgba(142, 68, 173, 0.25), transparent 60%);
+    background-size: 100% 100%;
+    opacity: 0.65;
+    mix-blend-mode: screen;
+    animation: driftMedium 90s ease-in-out infinite;
+    transform: translate3d(calc(var(--parallax-x) * 0.5px), calc(var(--parallax-y) * 0.5px), 0);
+}
+
+.layer-grid {
+    background-image:
+        linear-gradient(rgba(52, 152, 219, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(52, 152, 219, 0.08) 1px, transparent 1px);
+    background-size: 80px 80px;
+    opacity: 0.4;
+    mix-blend-mode: screen;
+    animation: driftFast 60s linear infinite;
+    transform: translate3d(calc(var(--parallax-x) * 0.9px), calc(var(--parallax-y) * 0.9px), 0);
+}
+
+.layer-glow {
+    background-image: radial-gradient(circle at 50% 50%, rgba(52, 152, 219, 0.25), transparent 60%);
+    background-size: 100% 100%;
+    opacity: 0.5;
+    filter: blur(12px);
+    animation: pulseGlow 18s ease-in-out infinite;
+    transform: translate3d(calc(var(--parallax-x) * 0.2px), calc(var(--parallax-y) * 0.2px), 0);
 }
 
 header {
@@ -37,6 +103,8 @@ header {
     padding: 1.5rem 0;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 1;
 }
 
 header h1 {
@@ -57,6 +125,8 @@ header h1 {
     align-items: center;
     padding: 2rem;
     gap: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 .controls-panel {
@@ -147,7 +217,6 @@ header h1 {
 }
 
 .map-section:hover {
-    transform: translateY(-5px);
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
 }
 
@@ -287,6 +356,8 @@ footer {
     margin-top: auto;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     font-size: 0.9rem;
+    position: relative;
+    z-index: 1;
 }
 
 /* Animations */
@@ -368,5 +439,36 @@ footer {
     
     header h1 {
         font-size: 2rem;
+    }
+}
+
+@keyframes driftSlow {
+    0% { transform: translate3d(calc(var(--parallax-x) * 0.25px), calc(var(--parallax-y) * 0.25px), 0); }
+    50% { transform: translate3d(calc(var(--parallax-x) * 0.25px + 40px), calc(var(--parallax-y) * 0.25px - 30px), 0); }
+    100% { transform: translate3d(calc(var(--parallax-x) * 0.25px), calc(var(--parallax-y) * 0.25px), 0); }
+}
+
+@keyframes driftMedium {
+    0% { transform: translate3d(calc(var(--parallax-x) * 0.5px), calc(var(--parallax-y) * 0.5px), 0); }
+    50% { transform: translate3d(calc(var(--parallax-x) * 0.5px - 30px), calc(var(--parallax-y) * 0.5px + 20px), 0); }
+    100% { transform: translate3d(calc(var(--parallax-x) * 0.5px), calc(var(--parallax-y) * 0.5px), 0); }
+}
+
+@keyframes driftFast {
+    0% { background-position: 0 0; transform: translate3d(calc(var(--parallax-x) * 0.9px), calc(var(--parallax-y) * 0.9px), 0); }
+    50% { background-position: 120px 80px; transform: translate3d(calc(var(--parallax-x) * 0.9px + 20px), calc(var(--parallax-y) * 0.9px - 20px), 0); }
+    100% { background-position: 240px 160px; transform: translate3d(calc(var(--parallax-x) * 0.9px), calc(var(--parallax-y) * 0.9px), 0); }
+}
+
+@keyframes pulseGlow {
+    0% { opacity: 0.4; }
+    50% { opacity: 0.75; }
+    100% { opacity: 0.4; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .parallax-layer {
+        animation: none;
+        transform: translate3d(0, 0, 0);
     }
 }

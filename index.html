@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battleship</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Battleship</h1>
+    </header>
+    <main id="game-container">
+        <!-- Controls & Messages at the top / center -->
+        <section class="controls-panel">
+            <h2 id="game-message">Place your ships</h2>
+            <div class="action-buttons">
+                <button id="rotate-btn" class="btn">Rotate Axis (X)</button>
+                <button id="audio-toggle-btn" class="btn secondary" aria-pressed="true">Audio: On</button>
+                <button id="restart-btn" class="btn hidden">Restart Game</button>
+            </div>
+        </section>
+
+        <!-- The boards area (flex/grid container) -->
+        <section class="boards-container">
+            <!-- Player Board Side -->
+            <div class="map-section player-section">
+                <div class="scoreboard">
+                    <h3>Player</h3>
+                    <p>Ships Remaining: <span id="player-ships-count">5</span></p>
+                </div>
+                <!-- Grid generation will be handled in JS, but this is the container -->
+                <div id="player-board" class="game-board"></div>
+            </div>
+
+            <!-- Computer Board Side -->
+            <div class="map-section computer-section">
+                <div class="scoreboard">
+                    <h3>Computer</h3>
+                    <p>Ships Remaining: <span id="computer-ships-count">5</span></p>
+                </div>
+                <!-- Grid generation will be handled in JS -->
+                <div id="computer-board" class="game-board disabled"></div>
+            </div>
+        </section>
+
+        <!-- Game Over Overlay -->
+        <div id="game-over-overlay" class="hidden">
+            <div class="game-over-modal">
+                <h2 id="game-over-title">Game Over!</h2>
+                <p id="game-over-text">You won!</p>
+                <button id="modal-restart-btn" class="btn">Play Again</button>
+            </div>
+        </div>
+    </main>
+    <footer class="hidden">
+        <p>&copy; 2026 Battleship Game</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

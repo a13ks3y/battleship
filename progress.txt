@@ -1,0 +1,34 @@
+# Progress Log
+
+Completed: Set up the core project structure, HTML5 document layout, and basic file linking - [Created index.html, styles.css, and script.js with basic boilerplate code and variables]
+Completed: Implement the core Battleship game logic, grid data models, and ship placement state management - [Created Ship, Gameboard, and Player classes as well as GameState logic in script.js to support placing ships, attacks, and phases]
+[2026-03-07T19:26:52.575Z] ✅ Completed: Implement the core Battleship game logic, grid data models, and ship placement state management (took 46s)
+[2026-03-07T19:28:04.476Z] ✅ Completed: Create the HTML application layout, separating player and computer game boards, scoreboards, and controls (took 40s)
+[2026-03-07T19:29:23.991Z] ✅ Completed: Add modern, fancy CSS styling utilizing CSS Grid, Flexbox, and custom variables for a premium visual feel (took 59s)
+[2026-03-07T19:31:06.265Z] ✅ Completed: Integrate vanilla JavaScript event listeners to handle user attacks, turn logic, and a basic AI opponent (took 90s)
+Completed: Integrate vanilla JavaScript event listeners to handle user attacks, turn logic, and a basic AI opponent - [Added event listeners to grid cells, implemented player and computer turn tracking via GameState, built basic random computer AI, and hooked up UI rendering logic]
+[2026-03-07T19:34:21.257Z] ✅ Completed: Polish the UI/UX with smooth CSS animations, hover effects, game over states, and restart functionality (took 179s)
+
+Completed: Polish the UI/UX with smooth CSS animations, hover effects, game over states, and restart functionality - [Added game over overlay, restart logic, hover animations, and improved hit/miss/sunk styling with CSS and JS updates]
+
+Completed: Fix computer player ship placement so ships are not placed chock-a-block (add spacing/clearance rules) - [Added a hasClearance check inside autoPlaceShips in script.js to ensure computer ships are placed with at least a 1-cell distance from one another]
+[2026-03-07T19:35:00.000Z] ✅ Completed: Center the hit/miss circles in the grid cells - [Updated styles.css with flex properties safely handling absolute positioning and line-height values to perfectly center content]
+
+Completed: Center the hit/miss circles in the grid cells - [Reworked hit/miss markers in styles.css to use centered circular indicators with absolute inset positioning]
+[2026-03-07T21:53:23.796Z] ✅ Completed: Center the hit/miss circles in the grid cells (took 61s)
+[2026-03-07T21:54:22.095Z] ✅ Completed: Prevent player from placing ships too close (at least 1 cell clearance between ships) (took 44s)
+Completed: Prevent player from placing ships too close (at least 1 cell clearance between ships) - [Added Gameboard clearance checks and enforced spacing in player placement and hover validation]
+
+Completed: Add background music and sound effects - [Added Web Audio background music loop, sound effects for placement/rotate/hit/miss/game over, and an audio toggle button]
+[2026-03-07T21:57:41.728Z] ✅ Completed: Add background music and sound effects (took 183s)
+[2026-03-07T21:59:23.263Z] ✅ Completed: creative paralax css background (took 89s)
+Completed: creative paralax css background - [Added layered parallax background divs, CSS animations for stars/nebula/grid glow, and pointer-driven parallax motion]
+Completed: Disable all audio - [Locked audio toggle off and prevented any sound playback]
+Completed: Restore audio toggle - [Re-enabled audio toggle so users can turn on background music and sound effects]
+Completed: Fix audio playback on toggle - [Resumed AudioContext before scheduling tones and music]
+
+Completed: create nice README.md, add link to https://a13ks3y.github.io/battleship/ (github pages) - [Added a polished README with features, gameplay, controls, tech stack, and live demo link]
+[2026-03-08T13:59:09.169Z] ✅ Completed: create nice README.md, add link to https://a13ks3y.github.io/battleship/ (github pages) (took 27s)
+
+Completed: commit and push - [Staged README.md and updated PRD.md/progress.txt, then committed and pushed to origin]
+[2026-03-08T13:59:41.666Z] ✅ Completed: commit and push (took 18s)

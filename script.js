@@ -506,10 +506,11 @@ function handlePlayerAttack(row, col) {
         updateUI();
         return;
     }
-    
-    GameState.CURRENT_TURN = 'COMPUTER';
-    updateUI();
-    setTimeout(computerTurn, 1000);
+    if (!wasShip) {
+        GameState.CURRENT_TURN = 'COMPUTER';
+        updateUI();
+        setTimeout(computerTurn, 1000);
+    }
 }
 
 function computerTurn() {
@@ -538,8 +539,12 @@ function computerTurn() {
         return;
     }
 
-    GameState.CURRENT_TURN = 'PLAYER';
-    updateUI();
+    if (!willHit) {
+        GameState.CURRENT_TURN = 'PLAYER';
+        updateUI();
+    } else {
+        setTimeout(computerTurn, 1000);
+    }
 }
 
 function setupParallaxBackground() {
